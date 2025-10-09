@@ -1,6 +1,7 @@
 lang=$1
-CVSS_ROOT=/data/zhangshaolei/datasets/cvss/cvss-c
-ROOT=/data/zhangshaolei/StreamSpeech
+CVSS_ROOT=/Users/vireshkoli/Documents/MTech/Machine\ Learning/ML\ Project/datasets/cvss/cvss-c
+ROOT=/Users/vireshkoli/Documents/MTech/Machine\ Learning/ML\ Project/StreamSpeech
+
 
 PYTHONPATH=$ROOT/fairseq python $ROOT/preprocess_scripts/prep_cvss_c_multitask_data.py \
     --data-dir $CVSS_ROOT/${lang}-en/fbank2unit \

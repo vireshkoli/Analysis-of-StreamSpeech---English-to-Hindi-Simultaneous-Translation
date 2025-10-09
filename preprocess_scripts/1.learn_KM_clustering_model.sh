@@ -1,7 +1,8 @@
 lang=$1
-DATA_ROOT=/data/zhangshaolei/datasets/cvss/cvss-c/$lang-en
-ROOT=/data/zhangshaolei/StreamSpeech
+DATA_ROOT=/Users/vireshkoli/Documents/MTech/Machine\ Learning/ML\ Project/datasets/cvss/cvss-c/$lang-en
+ROOT=/Users/vireshkoli/Documents/MTech/Machine\ Learning/ML\ Project/StreamSpeech
 PRETRAIN_ROOT=$ROOT/pretrain_models
+
 
 N_CLUSTERS=100 #<number_of_clusters_used_for_kmeans>
 TYPE=hubert #<one_of_logmel/cpc/hubert/w2v2>

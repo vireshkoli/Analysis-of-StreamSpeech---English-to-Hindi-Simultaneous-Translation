@@ -1,5 +1,5 @@
-ROOT=/data/zhangshaolei/StreamSpeech
-PRETRAIN_ROOT=$ROOT/pretrained_models
+ROOT="/Users/vireshkoli/Documents/MTech/Machine Learning/ML Project/StreamSpeech" 
+PRETRAIN_ROOT="$ROOT/pretrain_models"
 
 
 # unit-based_HiFi-GAN_vocoder
