@@ -1,6 +1,6 @@
 lang=es
 
-ROOT=/data/zhangshaolei/StreamSpeech
+ROOT=/Users/vireshkoli/Documents/MTech/Machine_Learning/ML_Project/StreamSpeech
 PREPROCESS_ROOT=$ROOT/preprocess_scripts
 
 bash $PREPROCESS_ROOT/1.learn_KM_clustering_model.sh $lang

@@ -1,4 +1,4 @@
-ROOT="/Users/vireshkoli/Documents/MTech/Machine Learning/ML Project/StreamSpeech" 
+ROOT="/Users/vireshkoli/Documents/MTech/Machine_Learning/ML_Project/StreamSpeech" 
 PRETRAIN_ROOT="$ROOT/pretrain_models"
 
 

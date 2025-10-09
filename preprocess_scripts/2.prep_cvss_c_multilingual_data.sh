@@ -1,7 +1,7 @@
 lang=$1
-CVSS_ROOT=/Users/vireshkoli/Documents/MTech/Machine\ Learning/ML\ Project/datasets/cvss/cvss-c
-COVOST2_ROOT=/Users/vireshkoli/Documents/MTech/Machine\ Learning/ML\ Project/datasets/covost2
-ROOT=/Users/vireshkoli/Documents/MTech/Machine\ Learning/ML\ Project/StreamSpeech
+CVSS_ROOT=/Users/vireshkoli/Documents/MTech/Machine_Learning/ML_Project/datasets/cvss/cvss-c
+COVOST2_ROOT=/Users/vireshkoli/Documents/MTech/Machine_Learning/ML_Project/datasets/covost2
+ROOT=/Users/vireshkoli/Documents/MTech/Machine_Learning/ML_Project/StreamSpeech
 PRETRAIN_ROOT=$ROOT/pretrain_models
 
 PYTHONPATH=$ROOT/fairseq python $ROOT/preprocess_scripts/prep_cvss_c_multilingual_data.py \

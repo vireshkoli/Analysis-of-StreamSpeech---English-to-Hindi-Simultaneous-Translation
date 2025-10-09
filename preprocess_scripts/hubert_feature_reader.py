@@ -30,7 +30,9 @@ class HubertFeatureReader:
         self.max_chunk = max_chunk
         self.use_cuda = use_cuda
         if self.use_cuda:
-            self.model.cuda()
+            # self.model.cuda()
+            self.model.cpu()
+
 
     def read_audio(self, path, ref_len=None, channel_id=None):
         wav, sr = torchaudio.load(path)
@@ -55,7 +57,8 @@ class HubertFeatureReader:
         with torch.no_grad():
             x = torch.from_numpy(x).float()
             if self.use_cuda:
-                x = x.cuda()
+                # x = x.cuda()
+                x = x.to("cpu")
             if self.task.cfg.normalize:
                 x = F.layer_norm(x, x.shape)
             x = x.view(1, -1)

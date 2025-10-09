@@ -1,5 +1,5 @@
 global_cmvn:
-  stats_npz_path: /Users/vireshkoli/Documents/MTech/Machine\ Learning/ML\ Project/StreamSpeech/configs/fr-en/gcmvn.npz
+  stats_npz_path: /Users/vireshkoli/Documents/MTech/Machine_Learning/ML_Project/StreamSpeech/configs/fr-en/gcmvn.npz
 input_channels: 1
 input_feat_per_channel: 80
 specaugment:
@@ -16,6 +16,6 @@ transforms:
   - global_cmvn
   - specaugment
 vocoder:
-  checkpoint: /Users/vireshkoli/Documents/MTech/Machine\ Learning/ML\ Project/StreamSpeech/pretrain_models/unit-based_HiFi-GAN_vocoder/mHuBERT.layer11.km1000.en/g_00500000
-  config: /Users/vireshkoli/Documents/MTech/Machine\ Learning/ML\ Project/StreamSpeech/pretrain_models/unit-based_HiFi-GAN_vocoder/mHuBERT.layer11.km1000.en/config.json
+  checkpoint: /Users/vireshkoli/Documents/MTech/Machine_Learning/ML_Project/StreamSpeech/pretrain_models/unit-based_HiFi-GAN_vocoder/mHuBERT.layer11.km1000.en/g_00500000
+  config: /Users/vireshkoli/Documents/MTech/Machine_Learning/ML_Project/StreamSpeech/pretrain_models/unit-based_HiFi-GAN_vocoder/mHuBERT.layer11.km1000.en/config.json
   type: code_hifigan

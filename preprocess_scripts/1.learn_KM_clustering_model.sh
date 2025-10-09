@@ -1,6 +1,6 @@
-lang=$1
-DATA_ROOT=/Users/vireshkoli/Documents/MTech/Machine\ Learning/ML\ Project/datasets/cvss/cvss-c/$lang-en
-ROOT=/Users/vireshkoli/Documents/MTech/Machine\ Learning/ML\ Project/StreamSpeech
+lang=fr
+DATA_ROOT=/Users/vireshkoli/Documents/MTech/Machine_Learning/ML_Project/datasets/cvss/cvss-c/$lang-en
+ROOT=/Users/vireshkoli/Documents/MTech/Machine_Learning/ML_Project/StreamSpeech
 PRETRAIN_ROOT=$ROOT/pretrain_models
 
 
