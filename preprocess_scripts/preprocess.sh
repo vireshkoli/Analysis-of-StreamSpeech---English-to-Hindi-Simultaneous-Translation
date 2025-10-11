@@ -1,4 +1,4 @@
-lang=es
+lang=fr
 
 ROOT=/Users/vireshkoli/Documents/MTech/Machine_Learning/ML_Project/StreamSpeech
 PREPROCESS_ROOT=$ROOT/preprocess_scripts

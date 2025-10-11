@@ -938,7 +938,7 @@ def translation(current_time):
     # translation_result = f"1234... {int(current_time * 1000)}"
     return jsonify(result=translation_result)
 
-with open('/data/zhangshaolei/StreamSpeech/demo/config.json', 'r') as f:
+with open('/Users/vireshkoli/Documents/MTech/Machine_Learning/ML_Project/StreamSpeech/demo/config.json', 'r') as f:
     args_dict = json.load(f)
 
 # Initialize agent

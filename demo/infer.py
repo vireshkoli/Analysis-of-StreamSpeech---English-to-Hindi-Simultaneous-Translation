@@ -812,5 +812,7 @@ if __name__ == "__main__":
 
     agent = StreamSpeechS2STAgent(args)
     
-    source="StreamSpeech/example/wavs/common_voice_fr_17301936.mp3"
+    # source="StreamSpeech/example/wavs/common_voice_fr_17301936.wav"
+    source="/Users/vireshkoli/Documents/MTech/Machine_Learning/ML_Project/StreamSpeech/example/wavs/common_voice_fr_17301936.wav"
+
     run(source)
