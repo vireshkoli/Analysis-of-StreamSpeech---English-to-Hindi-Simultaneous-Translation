@@ -64,7 +64,7 @@ class CoVoST(Dataset):
     Args:
         root (str): root path to the dataset and generated manifests/features
         source_language (str): source (audio) language
-        target_language (str, optional): target (text) language,
+            target_language (str, optional): target (text) language,
         None for no translation (default: None)
         version (int, optional): CoVoST version. (default: 2)
         download (bool, optional): Whether to download the dataset if it is not
@@ -82,6 +82,7 @@ class CoVoST(Dataset):
     XX_EN_LANGUAGES = {
         1: ["fr", "de", "nl", "ru", "es", "it", "tr", "fa", "sv-SE", "mn", "zh-CN"],
         2: [
+            "hi",            # << ADDED hi for en-hi support
             "fr",
             "de",
             "es",
@@ -108,6 +109,7 @@ class CoVoST(Dataset):
     EN_XX_LANGUAGES = {
         1: [],
         2: [
+            "hi",            # << ADDED hi for en-hi support
             "de",
             "tr",
             "fa",
@@ -131,7 +133,7 @@ class CoVoST(Dataset):
         root: str,
         split: str,
         source_language: str,
-        target_language: Optional[str] = None,
+            target_language: Optional[str] = None,
         version: int = 2,
     ) -> None:
         assert version in self.VERSIONS and split in self.SPLITS
@@ -201,7 +203,7 @@ class CoVoST(Dataset):
         """
         data = self.data[n]
         path = self.root / "clips" / data["path"]
-        waveform, sample_rate = torchaudio.load(path)
+        waveform, sample_rate = torchaudio.load(str(path))
         sentence = data["sentence"]
         translation = None if self.no_translation else data["translation"]
         speaker_id = data["client_id"]
@@ -219,7 +221,7 @@ class CVSS_C(CoVoST):
         covost_root: str,
         split: str,
         source_language: str,
-        target_language: Optional[str] = None,
+            target_language: Optional[str] = None,
         version: int = 2,
     ) -> None:
         super().__init__(covost_root, split, source_language, target_language, version)
@@ -251,9 +253,9 @@ class CVSS_C(CoVoST):
         """
         data = self.s2s_data[n]
         src_path = self.root / "clips" / data["path"]
-        src_waveform, src_sample_rate = torchaudio.load(src_path)
+        src_waveform, src_sample_rate = torchaudio.load(str(src_path))
         tgt_path = self.cvss_root / self.split / f"{data['path']}.wav"
-        tgt_waveform, tgt_sample_rate = torchaudio.load(tgt_path)
+        tgt_waveform, tgt_sample_rate = torchaudio.load(str(tgt_path))
         sentence = data["sentence"]
         translation = data["translation"]
         speaker_id = data["client_id"]
@@ -297,16 +299,17 @@ def process(args):
         source_root.mkdir(exist_ok=True)
         gcmvn_feature_list = []
         for src_lang in src_lang_list:
+            target_lang = "hi" if src_lang == "en" else "en"
             covost_root = Path(args.covost_data_root) / src_lang
-            cvss_root = Path(args.cvss_data_root) / f"{src_lang}-en"
+            cvss_root = Path(args.cvss_data_root) / (f"en-hi" if src_lang == "en" else f"en-{src_lang}")
             if not covost_root.is_dir():
                 raise NotADirectoryError(f"{covost_root} does not exist")
             if not cvss_root.is_dir():
                 raise NotADirectoryError(f"{cvss_root} does not exist")
 
-            print(f"Extracting source audio/features for {src_lang}-en...")
+            print(f"Extracting source audio/features for {src_lang}-hi...")
             for split in CoVoST.SPLITS:
-                dataset = CVSS_C(cvss_root, covost_root, split, src_lang, "en")
+                dataset = CVSS_C(cvss_root, covost_root, split, src_lang, target_lang)
                 if args.use_audio_input:
                     for waveform, sample_rate, _, _, _, _, _, utt_id in tqdm(dataset):
                         src_sample_rate = 16_000
@@ -364,12 +367,13 @@ def process(args):
             target_root.mkdir(exist_ok=True)
 
             for src_lang in src_lang_list:
+                target_lang = "hi" if src_lang == "en" else "en"
                 covost_root = Path(args.covost_data_root) / src_lang
-                cvss_root = Path(args.cvss_data_root) / f"{src_lang}-en"
+                cvss_root = Path(args.cvss_data_root) / (f"en-hi" if src_lang == "en" else f"en-{src_lang}")
 
-                print(f"Extracting target audio/features for {src_lang}-en...")
+                print(f"Extracting target audio/features for {src_lang}-hi...")
                 for split in CoVoST.SPLITS:
-                    dataset = CVSS_C(cvss_root, covost_root, split, src_lang, "en")
+                    dataset = CVSS_C(cvss_root, covost_root, split, src_lang, target_lang)
                     for _, _, waveform, sample_rate, _, _, _, utt_id in tqdm(dataset):
                         waveform, sample_rate = convert_waveform(
                             waveform,
@@ -401,9 +405,10 @@ def process(args):
         for split in CoVoST.SPLITS:
             manifest = {c: [] for c in MANIFEST_COLUMNS}
             for src_lang in src_lang_list:
+                target_lang = "hi" if src_lang == "en" else "en"
                 covost_root = Path(args.covost_data_root) / src_lang
-                cvss_root = Path(args.cvss_data_root) / f"{src_lang}-en"
-                dataset = CVSS_C(cvss_root, covost_root, split, src_lang, "en")
+                cvss_root = Path(args.cvss_data_root) / (f"en-hi" if src_lang == "en" else f"en-{src_lang}")
+                dataset = CVSS_C(cvss_root, covost_root, split, src_lang, target_lang)
                 for _, _, _, _, src_utt, tgt_utt, _, utt_id in tqdm(dataset):
                     manifest["id"].append(utt_id)
                     manifest["src_audio"].append(src_audio_paths[utt_id])
@@ -457,9 +462,10 @@ def process(args):
         for split in CoVoST.SPLITS:
             manifest = {c: [] for c in MANIFEST_COLUMNS}
             for src_lang in src_lang_list:
+                target_lang = "hi" if src_lang == "en" else "en"
                 covost_root = Path(args.covost_data_root) / src_lang
-                cvss_root = Path(args.cvss_data_root) / f"{src_lang}-en"
-                dataset = CVSS_C(cvss_root, covost_root, split, src_lang, "en")
+                cvss_root = Path(args.cvss_data_root) / (f"en-hi" if src_lang == "en" else f"en-{src_lang}")
+                dataset = CVSS_C(cvss_root, covost_root, split, src_lang, target_lang)
                 target_unit_data = load_units(cvss_root / f"{split}.{args.unit_type}")
                 for _, _, _, _, src_utt, tgt_utt, _, utt_id in tqdm(dataset):
                     manifest["id"].append(utt_id)
@@ -565,6 +571,8 @@ def main():
             "ja",
             "id",
             "cy",
+            "en",
+            "hi",
             "all",
         ],
         help="filter source language",

@@ -1,0 +1,2 @@
+BLEU	AL	AL_CA	AP	AP_CA	DAL	DAL_CA	StartOffset	StartOffset_CA	EndOffset	EndOffset_CA	LAAL	LAAL_CA	ATD	ATD_CA	NumChunks	NumChunks_CA	DiscontinuitySum	DiscontinuitySum_CA	DiscontinuityAve	DiscontinuityAve_CA	DiscontinuityNum	DiscontinuityNum_CA	RTF	RTF_CA
+0	2019.371	2294.907	0.159	0.179	1359.641	1635.177	960.0	1075.798	360.0	360.0	2019.371	2294.907	1874.281	2037.509	2	2	2218.562	2218.562	2218.562	2218.562	1	1	1.102	1.102

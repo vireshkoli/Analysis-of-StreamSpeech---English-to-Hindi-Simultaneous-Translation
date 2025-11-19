@@ -1,0 +1,1 @@
+configs/fr-en/src_unigram6000/spm_unigram_fr.txt

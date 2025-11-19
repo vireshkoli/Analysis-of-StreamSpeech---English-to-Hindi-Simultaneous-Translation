@@ -876,10 +876,26 @@ def merge_audio(left_audio_path, right_audio_path, offset_ms):
     
     return left_audio,right_audio
 
-app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = 'uploads'
-os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+# app = Flask(__name__)
+# app.config['UPLOAD_FOLDER'] = 'uploads'
+# os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+from pathlib import Path
 
+# Resolve project root (StreamSpeech/)
+# __file__ is demo/app.py so parents[1] is project root
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+PROJECT_UPLOADS = PROJECT_ROOT / "uploads"
+DEMO_UPLOADS = Path(__file__).resolve().parent / "uploads"
+
+# Prefer project-root uploads if it exists (that's where your output files are)
+UPLOAD_FOLDER = PROJECT_UPLOADS if PROJECT_UPLOADS.exists() else DEMO_UPLOADS
+UPLOAD_FOLDER.mkdir(parents=True, exist_ok=True)
+
+app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = str(UPLOAD_FOLDER)
+
+# Helpful log on start
+print(f"Flask UPLOAD_FOLDER = {app.config['UPLOAD_FOLDER']}")
 
 @app.route('/')
 def index():

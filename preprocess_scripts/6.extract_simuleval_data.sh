@@ -1,10 +1,10 @@
-lang=$1
+lang=en
 CVSS_ROOT=/Users/vireshkoli/Documents/MTech/Machine_Learning/ML_Project/datasets/cvss/cvss-c
 COVOST2_ROOT=/Users/vireshkoli/Documents/MTech/Machine_Learning/ML_Project/datasets/covost2
 ROOT=/Users/vireshkoli/Documents/MTech/Machine_Learning/ML_Project/StreamSpeech
 
 
 PYTHONPATH=$ROOT/fairseq python $ROOT/preprocess_scripts/extract_simuleval_data.py \
-    --cvss-dir $CVSS_ROOT/${lang}-en \
+    --cvss-dir $CVSS_ROOT/${lang}-hi \
     --covost2-dir $COVOST2_ROOT/${lang} \
-    --out-dir $CVSS_ROOT/${lang}-en/simuleval 
+    --out-dir $CVSS_ROOT/${lang}-hi/simuleval 

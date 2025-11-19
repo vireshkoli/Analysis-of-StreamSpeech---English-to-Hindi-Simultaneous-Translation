@@ -922,7 +922,7 @@ class ConvFeatureExtractionModel(nn.Module):
         return x
 
 
-def make_conv_pos(e, k, g):
+def make_conv_pos(e, k, g, is_batch_norm=False):
     pos_conv = nn.Conv1d(
         e,
         e,
@@ -935,8 +935,12 @@ def make_conv_pos(e, k, g):
     nn.init.normal_(pos_conv.weight, mean=0, std=std)
     nn.init.constant_(pos_conv.bias, 0)
 
-    pos_conv = nn.utils.weight_norm(pos_conv, name="weight", dim=2)
-    pos_conv = nn.Sequential(pos_conv, SamePad(k), nn.GELU())
+    if not is_batch_norm:
+        pos_conv = nn.utils.weight_norm(pos_conv, name="weight", dim=2)
+        pos_conv = nn.Sequential(pos_conv, SamePad(k), nn.GELU())
+    else:
+        batch_norm = nn.BatchNorm1d(e)
+        pos_conv = nn.Sequential(batch_norm, pos_conv, SamePad(k), nn.GELU())
 
     return pos_conv
 
@@ -1005,7 +1009,7 @@ class TransformerEncoder(nn.Module):
             layer = checkpoint_wrapper(layer)
         return layer
 
-    def __init__(self, args: Wav2Vec2Config):
+    def __init__(self, args: Wav2Vec2Config, skip_pos_conv: bool = False, override_encoder_layer: int = None):
         super().__init__()
 
         self.dropout = args.dropout
@@ -1041,16 +1045,25 @@ class TransformerEncoder(nn.Module):
             self.pos_conv = make_conv_block(
                 self.embedding_dim, k, args.conv_pos_groups, num_layers
             )
-
+        elif skip_pos_conv:
+            self.pos_conv = None
         else:
             self.pos_conv = make_conv_pos(
                 self.embedding_dim,
                 args.conv_pos,
                 args.conv_pos_groups,
+                is_batch_norm=args.conv_pos_batch_norm
+                if hasattr(args, "conv_pos_batch_norm")
+                else False,
             )
 
+        if override_encoder_layer is None:
+            encoder_layers = args.encoder_layers
+        else:
+            encoder_layers = override_encoder_layer
+
         self.layers = nn.ModuleList(
-            [self.build_encoder_layer(args, layer_idx=ii) for ii in range(args.encoder_layers)]
+            [self.build_encoder_layer(args, layer_idx=ii) for ii in range(encoder_layers)]
         )
         self.layer_norm_first = args.layer_norm_first
         self.layer_norm = LayerNorm(self.embedding_dim)
@@ -1080,9 +1093,10 @@ class TransformerEncoder(nn.Module):
         if padding_mask is not None:
             x = index_put(x, padding_mask, 0)
 
-        x_conv = self.pos_conv(x.transpose(1, 2))
-        x_conv = x_conv.transpose(1, 2)
-        x = x + x_conv
+        if self.pos_conv is not None:
+            x_conv = self.pos_conv(x.transpose(1, 2))
+            x_conv = x_conv.transpose(1, 2)
+            x = x + x_conv
 
         if not self.layer_norm_first:
             x = self.layer_norm(x)
@@ -1370,7 +1384,7 @@ class AdapterFast(nn.Module):
         and without using ModuleList orto speed up training throughput.
         """
         super().__init__()
-        
+
         self.adapter_num = adapter_num
         self.input_dim = input_dim
         self.hidden_dim = hidden_dim
@@ -1405,7 +1419,7 @@ class AdapterFast(nn.Module):
             fan_in, _ = nn.init._calculate_fan_in_and_fan_out(self.W_b[ii])
             bound = 1 / math.sqrt(fan_in) if fan_in > 0 else 0
             nn.init.uniform_(self.b_b[ii], -bound, bound)
-        
+
         nn.init.ones_(self.ln_W)
         nn.init.zeros_(self.ln_b)
 
@@ -1418,7 +1432,7 @@ class AdapterFast(nn.Module):
         h = F.linear(h, self.W_b[ii], self.b_b[ii])
         outputs = h
         return outputs
-    
+
     def extra_repr(self):
         return ('adapter={}, input_dim={}, hidden_dim={}'.format(self.adapter_num, self.input_dim, self.hidden_dim))
 

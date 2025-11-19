@@ -78,7 +78,7 @@ def process(args):
             Path(f.name),
             Path(s2tt_tsv_dir).absolute() / f"spm_unigram_joint",
             "unigram",
-            10000,
+            7787,
         )
 
 

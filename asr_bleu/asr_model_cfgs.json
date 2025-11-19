@@ -1,4 +1,13 @@
 {
+    "hi": {
+        "oct22": {
+            "model_path": "facebook/wav2vec2-large-xlsr-53",   
+            "model_type": "hf",
+            "lang": "hi",
+            "post_process": "collapse"
+        
+        }
+    },
     "en": {
         "oct22": {
             "desc": "Wav2Vec 2.0 Large (LV-60) + Self Training from https://github.com/facebookresearch/fairseq/tree/main/examples/wav2vec#pre-trained-models",

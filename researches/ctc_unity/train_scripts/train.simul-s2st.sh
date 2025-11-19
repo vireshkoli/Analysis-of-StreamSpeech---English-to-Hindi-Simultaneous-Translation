@@ -1,9 +1,11 @@
-export CUDA_VISIBLE_DEVICES=0,1,2,3
+# Original Script
+export CUDA_VISIBLE_DEVICES=""
+LANG=en
+DATA_ROOT=/Users/vireshkoli/Documents/MTech/Machine_Learning/ML_Project/datasets/cvss/cvss-c
+DATA=$DATA_ROOT/${LANG}-hi/fbank2unit
+model=streamspeech.simul-s2st.${LANG}-hi
 
-LANG=fr
-DATA_ROOT=/data/zhangshaolei/datasets/cvss/cvss-c
-DATA=$DATA_ROOT/${LANG}-en/fbank2unit
-model=streamspeech.simul-s2st.${LANG}-en
+export CUDA_VISIBLE_DEVICES=""; export OMP_NUM_THREADS=1; export MKL_NUM_THREADS=1; export OMP_WAIT_POLICY=ACTIVE; export PYTHONWARNINGS=ignore \
 
 fairseq-train $DATA \
   --user-dir researches/ctc_unity \
@@ -31,4 +33,4 @@ fairseq-train $DATA \
   --attn-type espnet --pos-enc-type rel_pos \
   --keep-interval-updates 40 \
   --keep-best-checkpoints 20 \
-  --seed 1 --fp16 --num-workers 8 
+  --seed 1 --num-workers 8 

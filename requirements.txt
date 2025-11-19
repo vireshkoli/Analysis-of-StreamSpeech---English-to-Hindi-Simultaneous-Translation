@@ -1,34 +1,38 @@
-# Core ML
-torch==2.0.1
-torchaudio==2.0.1
-torchvision==0.15.2
+# === INSTALLATION NOTE ===
+# Before installing dependencies, downgrade pip:
+#   python -m pip install pip==23.2.1
 
-# Fairseq and SimulEval (installed from GitHub)
-fairseq @ git+https://github.com/facebookresearch/fairseq.git@main
-SimulEval @ git+https://github.com/facebookresearch/SimulEval.git@main
+# === CORE (installed from source) ===
+# Fairseq and SimulEval are local editable installs
+# -e ./fairseq
+# -e ./SimulEval
 
-# Audio processing
+# === PYTORCH ===
+torch==2.5.1
+torchaudio==2.5.1
+
+# === AUDIO & SPEECH PROCESSING ===
+librosa==0.10.2.post1
+soundfile==0.13.1
+scipy==1.15.3
+# numpy==2.0.1
 pydub
-yt-dlp
 ffmpeg-python
+yt-dlp
 
-# Speech features
-librosa
-numpy
-scipy
-soundfile
+# === TOKENIZATION & TEXT ===
+sentencepiece==0.2.0
 
-# Tokenization
-sentencepiece
+# === CONFIGURATION & LOGGING ===
+hydra-core==1.0.7
+omegaconf==2.0.6
+tensorboardX
 
-# Configs and logging
-omegaconf==2.2.3
-hydra-core==1.3.2
-
-# Flask GUI
+# === FLASK GUI ===
 flask==2.2.3
 werkzeug==2.2.3
 
-# Misc
-requests
+# === UTILITIES ===
 tqdm
+requests
+dos2unix

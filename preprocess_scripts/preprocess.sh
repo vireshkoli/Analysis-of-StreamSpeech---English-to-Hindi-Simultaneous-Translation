@@ -1,4 +1,4 @@
-lang=fr
+lang=en
 
 ROOT=/Users/vireshkoli/Documents/MTech/Machine_Learning/ML_Project/StreamSpeech
 PREPROCESS_ROOT=$ROOT/preprocess_scripts
@@ -12,6 +12,9 @@ echo 'finish 2.prep_cvss_c_multilingual_data.sh'
 bash $PREPROCESS_ROOT/3.prep_cvss_c_multitask_data.sh $lang
 echo 'finish 3.prep_cvss_c_multitask_data.sh'
 
+bash $PREPROCESS_ROOT/4.prep_cvss_c_pretrain_data.sh $lang
+echo 'finish 4.prep_cvss_c_pretrain_data.sh'
+
 bash $PREPROCESS_ROOT/5.prep_cvss_c_ref_txt.sh $lang
 echo 'finish 5.prep_cvss_c_ref_txt.sh'
 
@@ -23,8 +26,8 @@ echo 'finish 7.prep_cvss_c_multitask_asr_data.sh'
 
 bash $PREPROCESS_ROOT/8.prep_cvss_c_simuleval_unit.sh $lang
 bash $PREPROCESS_ROOT/8.prep_cvss_c_simuleval_src.sh $lang
-echo 'finish 8.prep_cvss_c_simuleval_unit.sh, 8.prep_cvss_c_simuleval_src.sh '
+echo 'finish 8.prep_cvss_c_simuleval_unit.sh, 8.prep_cvss_c_simuleval_src.sh'
 
 # # only for s2tt training on CVSS-C
-# bash $PREPROCESS_ROOT/9.prep_cvss_c_s2st_mtl_data.sh  $lang
-# echo 'finish 9.prep_cvss_c_s2st_mtl_data.sh'
+bash $PREPROCESS_ROOT/9.prep_cvss_c_s2st_mtl_data.sh  $lang
+echo 'finish 9.prep_cvss_c_s2st_mtl_data.sh'

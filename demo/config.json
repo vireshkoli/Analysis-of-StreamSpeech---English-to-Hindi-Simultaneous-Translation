@@ -1,8 +1,8 @@
 {
-    "data-bin": "/Users/vireshkoli/Documents/MTech/Machine_Learning/ML_Project/StreamSpeech/configs/fr-en",
+    "data-bin": "/Users/vireshkoli/Documents/MTech/Machine_Learning/ML_Project/StreamSpeech/configs/en-hi",
     "user-dir": "/Users/vireshkoli/Documents/MTech/Machine_Learning/ML_Project/StreamSpeech/researches/ctc_unity",
     "agent-dir": "/Users/vireshkoli/Documents/MTech/Machine_Learning/ML_Project/StreamSpeech/agent",
-    "model-path": "/Users/vireshkoli/Documents/MTech/Machine_Learning/ML_Project/StreamSpeech/pretrain_models/streamspeech.simultaneous.fr-en.pt",
+    "model-path": "/Users/vireshkoli/Documents/MTech/Machine_Learning/ML_Project/StreamSpeech/checkpoints/streamspeech.simul-s2st.en-hi/checkpoint_last.pt",
     "config-yaml": "config_gcmvn.yaml",
     "multitask-config-yaml": "config_mtl_asr_st_ctcst.yaml",
     "segment-size": 320,

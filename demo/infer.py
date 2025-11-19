@@ -1,4 +1,4 @@
-##########################################
+    ##########################################
 # Simultaneous Speech-to-Speech Translation Agent for StreamSpeech
 #
 # StreamSpeech: Simultaneous Speech-to-Speech Translation with Multi-task Learning (ACL 2024)
@@ -812,7 +812,5 @@ if __name__ == "__main__":
 
     agent = StreamSpeechS2STAgent(args)
     
-    # source="StreamSpeech/example/wavs/common_voice_fr_17301936.wav"
-    source="/Users/vireshkoli/Documents/MTech/Machine_Learning/ML_Project/StreamSpeech/example/wavs/common_voice_fr_17301936.wav"
-
+    source="/Users/vireshkoli/Documents/MTech/Machine_Learning/ML_Project/StreamSpeech/example/wavs/common_voice_en_00000001.mp3"
     run(source)
